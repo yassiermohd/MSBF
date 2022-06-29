@@ -3,6 +3,7 @@ library(readxl)
 library(devtools)
 library(reshape)
 library(zoo)
+library(xlsx)
 
 
 rm(list = ls())
@@ -58,17 +59,23 @@ figure_2 <- plot_data %>%
 
 png("images/TNA_76Funds.png")
 print(figure_2)
-dev.off
+dev.off()
 
 
 plot_missing_data <- main_list_tna %>% filter(Fund %in% filter_fund$Fund) 
 plot_missing_data <- plot_missing_data %>% mutate(count_na = rowSums(is.na(plot_missing_data))) %>%  
   select(Fund,count_na) %>%  arrange(desc(count_na))
 
+# Check missing data for latest 76 funds
+
 figure_3 <- plot_missing_data %>% ggplot(aes(x=count_na))+ geom_histogram()
 
 png("images/Null76Funds.png")
 print(figure_3)
-dev.off
+dev.off()
 
 
+# Export list of 76 funds
+
+list_76 <- main_list_tna %>% filter(Fund %in% filter_fund$Fund) %>%  select (Fund)
+write.xlsx(list_76, "76Funds.xlsx")
