@@ -13,6 +13,7 @@ rownames(main) <- NULL
 head(main)
 
 main_split <- split(main, factor(sort(rank(row.names(main))%%15)))
+print("Masyi")
 
 # can improve by performing loop 
 write.xlsx(as.data.frame(main_split$`0`), "76Funds_1.xlsx", row.names=F)
